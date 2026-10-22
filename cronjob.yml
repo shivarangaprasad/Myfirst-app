@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: boxoffice-output
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: boxoffice-ranking
+spec:
+  schedule: "0 2 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: boxoffice-ranking
+              image: myfirstproject:latest
+              imagePullPolicy: IfNotPresent
+              command: ["python", "Kaggle.py"]
+              args: ["--output", "/output/BoxOfficeCollections_ranked.xlsx"]
+              volumeMounts:
+                - name: output
+                  mountPath: /output
+          volumes:
+            - name: output
+              persistentVolumeClaim:
+                claimName: boxoffice-output
