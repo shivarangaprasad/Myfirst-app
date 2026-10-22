@@ -12,9 +12,9 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: boxoffice-ranking
+  name: my-python-pipeline
 spec:
-  schedule: "0 2 * * *"
+  schedule: "*/30 * * * *"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
@@ -26,7 +26,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: boxoffice-ranking
-              image: myfirstproject:latest
+              image: image-registry.openshift-image-registry.svc:5000/my-namespace/python-pipeline:latest
               imagePullPolicy: IfNotPresent
               command: ["python", "Kaggle.py"]
               args: ["--output", "/output/BoxOfficeCollections_ranked.xlsx"]
