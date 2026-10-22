@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: my-python-pipeline
+spec:
+  schedule: "*/30 * * * *"  # This tells OpenShift to run it every 30 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: pipeline-container
+            # Jenkins will replace "latest" with a specific version number later
+            image: image-registry.openshift-image-registry.svc:5000/my-namespace/python-pipeline:latest
+          restartPolicy: OnFailure
