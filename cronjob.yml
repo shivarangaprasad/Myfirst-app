@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: my-python-pipeline
+  name: Python CICD
 spec:
   schedule: "*/30 * * * *"  # This tells OpenShift to run it every 30 minutes
   jobTemplate:
