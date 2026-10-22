@@ -26,7 +26,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: boxoffice-ranking
-              image: image-registry.openshift-image-registry.svc:5000/my-namespace/python-pipeline:latest
+              image: image-registry.openshift-image-registry.svc:5000/bharadwaj-siva-dev/python-pipeline:latest
               imagePullPolicy: IfNotPresent
               command: ["python", "Kaggle.py"]
               args: ["--output", "/output/BoxOfficeCollections_ranked.xlsx"]
